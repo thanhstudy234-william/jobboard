@@ -1,58 +1,83 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# JobBoard – Website tuyển dụng việc làm trực tuyến
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Đồ án Web – Trường Đại học Kinh doanh và Công nghệ Hà Nội.
+Xây dựng bằng **Laravel 13**, **PHP 8.3**, **SQL Server 2022**, Blade + Tailwind CSS.
 
-## About Laravel
+## Chức năng
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+| Vai trò | Chức năng |
+|---|---|
+| Khách | Xem, tìm kiếm, lọc việc làm (từ khóa, ngành, địa điểm), xem chi tiết tin, đăng ký, đăng nhập, gửi liên hệ |
+| Ứng viên | Nộp đơn kèm CV PDF, lưu / bỏ lưu việc làm, xem lịch sử và trạng thái đơn, dashboard |
+| Nhà tuyển dụng | Thêm, sửa, xóa tin; xem hồ sơ ứng viên, tải CV, đổi trạng thái đơn; dashboard |
+| Admin | Duyệt tin, khóa / mở khóa người dùng, quản lý danh mục, xem liên hệ, dashboard thống kê |
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+Điểm kỹ thuật: phân quyền 3 vai trò bằng middleware, kiểm duyệt tin (pending → approved), chống nộp trùng đơn (UNIQUE), upload CV, phân trang, validation.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## Yêu cầu
 
-## Learning Laravel
+- PHP 8.3 (bật extension: curl, fileinfo, mbstring, openssl, zip, **pdo_sqlsrv**, **sqlsrv**)
+- ODBC Driver 17 hoặc 18 for SQL Server
+- Composer, Node.js (LTS)
+- SQL Server (bản Express) bật đăng nhập SQL và TCP/IP cổng 1433
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
-
-In addition, [Laracasts](https://laracasts.com) contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
-
-You can also watch bite-sized lessons with real-world projects on [Laravel Learn](https://laravel.com/learn), where you will be guided through building a Laravel application from scratch while learning PHP fundamentals.
-
-## Agentic Development
-
-Laravel's predictable structure and conventions make it ideal for AI coding agents like Claude Code, Cursor, and GitHub Copilot. Install [Laravel Boost](https://laravel.com/docs/ai) to supercharge your AI workflow:
+## Cài đặt
 
 ```bash
-composer require laravel/boost --dev
-
-php artisan boost:install
+git clone https://github.com/thanhstudy234-william/jobboard.git
+cd jobboard
+composer install
+npm install
+npm run build
+cp .env.example .env        # Windows: copy .env.example .env
+php artisan key:generate
 ```
 
-Boost provides your agent 15+ tools and skills that help agents build Laravel applications while following best practices.
+1. Tạo database rỗng trong SSMS: `CREATE DATABASE jobboard;`
+2. Mở `.env`, điền `DB_PASSWORD` (mật khẩu tài khoản `sa`).
+3. Chạy migration, dữ liệu mẫu và liên kết thư mục lưu file:
 
-## Contributing
+```bash
+php artisan migrate:fresh --seed
+php artisan storage:link
+php artisan serve
+```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+Mở http://127.0.0.1:8000
 
-## Code of Conduct
+> Nếu gặp lỗi chứng chỉ SSL với ODBC Driver 18, đặt `'trust_server_certificate' => true` trong mục `sqlsrv` của `config/database.php` (đã cấu hình sẵn).
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+## Tài khoản mẫu (mật khẩu: `12345678`)
 
-## Security Vulnerabilities
+| Vai trò | Email |
+|---|---|
+| Admin | admin@test.com |
+| Nhà tuyển dụng | employer1@test.com, employer2@test.com |
+| Ứng viên | candidate1@test.com, candidate2@test.com, candidate3@test.com |
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+## Cơ sở dữ liệu
 
-## License
+7 bảng: `users`, `companies`, `categories`, `job_posts`, `applications`, `saved_jobs`, `contacts`.
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+- users 1–1 companies, companies 1–N job_posts, categories 1–N job_posts
+- job_posts 1–N applications, users 1–N applications
+- users N–N job_posts qua saved_jobs
+
+Bảng tin tuyển dụng đặt tên `job_posts` để không trùng bảng `jobs` (hàng đợi) của Laravel.
+
+## Cấu trúc chính
+
+```
+app/Http/Controllers/        HomeController, ApplicationController, SavedJobController, ContactController, DashboardController
+app/Http/Controllers/Admin/  Duyệt tin, người dùng, danh mục, liên hệ
+app/Http/Controllers/Employer/  Quản lý tin, hồ sơ ứng viên
+app/Http/Middleware/RoleMiddleware.php   Phân quyền theo vai trò
+database/migrations/         Cấu trúc 7 bảng
+database/seeders/            Dữ liệu mẫu
+resources/views/             Giao diện Blade
+```
+
+## Hạn chế và hướng phát triển
+
+- Chưa có trang chỉnh sửa hồ sơ công ty, chưa gửi email thông báo, chưa deploy.
+- Hướng phát triển: hồ sơ công ty và logo, email thông báo, biểu đồ thống kê, REST API.
