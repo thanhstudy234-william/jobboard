@@ -11,4 +11,8 @@
             @endforeach
         </div>
     </div>
+    <div class="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
+    <div class="text-3xl font-bold text-indigo-600">{{ $value }}</div>
+    <div class="mt-1 text-slate-500">{{ $label }}</div>
+</div>
 </x-app-layout>

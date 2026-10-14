@@ -24,7 +24,7 @@
                 @forelse ($jobs as $job)
                     <tr class="border-b">
                         <td class="p-2">{{ $job->title }}</td>
-                        <td class="p-2">{{ $job->status }}</td>
+                        <td class="p-2"><x-badge :status="$job->status" /></td>
                         <td class="p-2">{{ $job->deadline?->format('d/m/Y') }}</td>
                         <td class="p-2"><a href="{{ route('employer.applicants.index', $job) }}" class="text-indigo-600">{{ $job->applications_count }} hồ sơ</a></td>
                         <td class="p-2 flex gap-3">

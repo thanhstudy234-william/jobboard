@@ -13,8 +13,9 @@
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                        {{ __('Dashboard') }}
+                        {{ __('Bảng Điều Khiển') }}
                     </x-nav-link>
+                    <x-nav-link :href="route('home')">Trang chủ</x-nav-link>
                     @if (auth()->user()->role === 'admin')
                     <x-nav-link :href="route('admin.jobs.index')">Duyệt tin</x-nav-link>
                     <x-nav-link :href="route('admin.users.index')">Người dùng</x-nav-link>

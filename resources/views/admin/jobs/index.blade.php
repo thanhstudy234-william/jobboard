@@ -29,7 +29,7 @@
                     <tr class="border-b">
                         <td class="p-2">{{ $job->title }}</td>
                         <td class="p-2">{{ $job->company->name }}</td>
-                        <td class="p-2">{{ $job->status }}</td>
+                        <td class="p-2"><x-badge :status="$job->status" /></td>
                         <td class="p-2">
                             <form method="POST" action="{{ route('admin.jobs.update', $job) }}" class="flex gap-2">
                                 @csrf @method('PATCH')

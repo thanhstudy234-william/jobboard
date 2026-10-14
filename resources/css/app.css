@@ -1,6 +1,10 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-th {
-    text-align: left;
-}
+
+body { font-family: 'Figtree', ui-sans-serif, system-ui, sans-serif; }
+
+table { width: 100%; border-collapse: collapse; background: #fff; border-radius: .75rem; overflow: hidden; box-shadow: 0 1px 2px rgb(0 0 0 / .06); }
+th { text-align: left; background: #f1f5f9; color: #475569; font-size: .8rem; text-transform: uppercase; letter-spacing: .04em; }
+th, td { padding: .75rem 1rem; }
+tr + tr td { border-top: 1px solid #e2e8f0; }

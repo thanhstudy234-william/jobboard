@@ -14,7 +14,7 @@
                     <tr class="border-b">
                         <td class="p-2">{{ $a->jobPost->title }}</td>
                         <td class="p-2">{{ $a->jobPost->company->name }}</td>
-                        <td class="p-2">{{ $a->status }}</td>
+                        <td class="p-2"><x-badge :status="$a->status" /></td>
                         <td class="p-2">{{ $a->created_at->format('d/m/Y') }}</td>
                     </tr>
                 @empty
