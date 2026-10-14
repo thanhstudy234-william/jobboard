@@ -37,6 +37,11 @@
                             name="password_confirmation" required autocomplete="new-password" />
 
             <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
+            <x-input-label for="role" value="Bạn là" />
+            <select id="role" name="role" class="block mt-1 w-full border-gray-300 rounded-md shadow-sm">
+            <option value="candidate">Ứng viên</option>
+            <option value="employer">Nhà tuyển dụng</option>
+            </select>
         </div>
 
         <div class="flex items-center justify-end mt-4">
