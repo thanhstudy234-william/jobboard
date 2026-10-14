@@ -26,7 +26,7 @@
                         <td class="p-2">{{ $job->title }}</td>
                         <td class="p-2">{{ $job->status }}</td>
                         <td class="p-2">{{ $job->deadline?->format('d/m/Y') }}</td>
-                        <td class="p-2">{{ $job->applications_count }}</td>
+                        <td class="p-2"><a href="{{ route('employer.applicants.index', $job) }}" class="text-indigo-600">{{ $job->applications_count }} hồ sơ</a></td>
                         <td class="p-2 flex gap-3">
                             <a href="{{ route('employer.jobs.edit', $job) }}" class="text-indigo-600">Sửa</a>
                             <form method="POST" action="{{ route('employer.jobs.destroy', $job) }}"

@@ -25,7 +25,10 @@
 @endif
                 </div>
             </div>
-
+@if (auth()->user()->role === 'candidate')
+    <x-nav-link :href="route('candidate.applications')">Đơn của tôi</x-nav-link>
+    <x-nav-link :href="route('candidate.saved')">Việc đã lưu</x-nav-link>
+@endif
             <!-- Settings Dropdown -->
             <div class="hidden sm:flex sm:items-center sm:ms-6">
                 <x-dropdown align="right" width="48">

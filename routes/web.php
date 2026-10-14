@@ -7,6 +7,9 @@ use App\Http\Controllers\Employer\JobPostController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\JobApprovalController;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\ApplicationController;
+use App\Http\Controllers\SavedJobController;
+use App\Http\Controllers\Employer\ApplicantController;
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/jobs/{job}', [HomeController::class, 'show'])->name('jobs.show');
 
@@ -24,7 +27,9 @@ Route::middleware('auth')->group(function () {
 Route::middleware(['auth', 'role:employer'])
     ->prefix('employer')->name('employer.')->group(function () {
         Route::resource('jobs', JobPostController::class)->except('show');
-    });
+        Route::get('jobs/{job}/applicants', [ApplicantController::class, 'index'])->name('applicants.index');
+        Route::patch('applications/{application}', [ApplicantController::class, 'update'])->name('applicants.update');
+        });
     
 Route::middleware(['auth', 'role:admin'])
     ->prefix('admin')->name('admin.')->group(function () {
@@ -36,4 +41,10 @@ Route::middleware(['auth', 'role:admin'])
 
         Route::resource('categories', CategoryController::class)->only(['index', 'store', 'update', 'destroy']);
     });   
+    Route::middleware(['auth', 'role:candidate'])->group(function () {
+    Route::get('/my-applications', [ApplicationController::class, 'index'])->name('candidate.applications');
+    Route::post('/jobs/{job}/apply', [ApplicationController::class, 'store'])->name('jobs.apply');
+    Route::get('/saved-jobs', [SavedJobController::class, 'index'])->name('candidate.saved');
+    Route::post('/jobs/{job}/save', [SavedJobController::class, 'toggle'])->name('jobs.save');
+});
 require __DIR__.'/auth.php';
