@@ -1,7 +1,11 @@
 <x-guest-layout>
     <div class="max-w-5xl mx-auto">
         <h1 class="text-2xl font-bold mb-4">Tìm việc làm</h1>
-
+<div class="mb-4 text-sm">
+    <a href="{{ route('contact') }}" class="text-indigo-600">Liên hệ</a> ·
+    <a href="{{ route('login') }}" class="text-indigo-600">Đăng nhập</a> ·
+    <a href="{{ route('register') }}" class="text-indigo-600">Đăng ký</a>
+</div>
         <form method="GET" class="grid grid-cols-1 md:grid-cols-5 gap-2 mb-6">
             <input type="text" name="q" value="{{ request('q') }}" placeholder="Từ khóa..."
                    class="border-gray-300 rounded-md md:col-span-2">

@@ -19,7 +19,8 @@
                     <x-nav-link :href="route('admin.jobs.index')">Duyệt tin</x-nav-link>
                     <x-nav-link :href="route('admin.users.index')">Người dùng</x-nav-link>
                     <x-nav-link :href="route('admin.categories.index')">Danh mục</x-nav-link>
-@endif
+                    <x-nav-link :href="route('admin.contacts.index')">Liên hệ</x-nav-link>
+                    @endif
 @if (auth()->user()->role === 'employer')
     <x-nav-link :href="route('employer.jobs.index')">Tin của tôi</x-nav-link>
 @endif

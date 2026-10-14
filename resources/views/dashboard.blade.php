@@ -1,17 +1,14 @@
 <x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Dashboard') }}
-        </h2>
-    </x-slot>
+    <div class="max-w-6xl mx-auto p-6">
+        <h1 class="text-2xl font-bold mb-6">Xin chào, {{ auth()->user()->name }}</h1>
 
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 text-gray-900">
-                    {{ __("You're logged in!") }}
+        <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+            @foreach ($stats as $label => $value)
+                <div class="border rounded-lg p-5">
+                    <div class="text-3xl font-bold">{{ $value }}</div>
+                    <div class="text-gray-500 mt-1">{{ $label }}</div>
                 </div>
-            </div>
+            @endforeach
         </div>
     </div>
 </x-app-layout>

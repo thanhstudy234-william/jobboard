@@ -10,13 +10,17 @@ use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\ApplicationController;
 use App\Http\Controllers\SavedJobController;
 use App\Http\Controllers\Employer\ApplicantController;
+use App\Http\Controllers\ContactController;
+use App\Http\Controllers\Admin\ContactController as AdminContactController;
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/jobs/{job}', [HomeController::class, 'show'])->name('jobs.show');
+Route::get('/contact', [ContactController::class, 'create'])->name('contact');
+Route::post('/contact', [ContactController::class, 'store'])->name('contact.store');
 
+use App\Http\Controllers\DashboardController;
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/dashboard', [DashboardController::class, 'index'])
+    ->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -40,7 +44,9 @@ Route::middleware(['auth', 'role:admin'])
         Route::patch('users/{user}/toggle', [UserController::class, 'toggle'])->name('users.toggle');
 
         Route::resource('categories', CategoryController::class)->only(['index', 'store', 'update', 'destroy']);
-    });   
+        Route::get('contacts', [AdminContactController::class, 'index'])->name('contacts.index');
+        Route::delete('contacts/{contact}', [AdminContactController::class, 'destroy'])->name('contacts.destroy');
+        });   
     Route::middleware(['auth', 'role:candidate'])->group(function () {
     Route::get('/my-applications', [ApplicationController::class, 'index'])->name('candidate.applications');
     Route::post('/jobs/{job}/apply', [ApplicationController::class, 'store'])->name('jobs.apply');
